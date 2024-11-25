@@ -1,0 +1,28 @@
+{% for product in products %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top img-thumbnail" alt="{{ product.name }}" style="width: 300px; height: 200px">
+            {% else %}
+                <img src="" class="card-img-top" alt="No image available">
+            {% endif %}
+
+            <div class="card-body">
+
+                <h5 class="card-title"><strong>Name:</strong> {{ product.name }}</h5>
+                <p class="card-text"><strong>Price:</strong> ${{ product.price }}</p>
+                <p class="card-text"><strong>Category:</strong> <span class="badge text-bg-secondary">{{ product.category.all|join:", " }}</span></p>
+
+                <p class="card-text"><strong>Description:</strong> {{ product.description|truncatewords:20 }}</p>
+            </div>
+
+            <div class="card-footer text-center">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'orders:add_cart_item' product.id %}" class="btn btn-primary">Add to Cart</a>
+                {% endif %}|
+                <a href="{% url 'shop:detail' product.id %}" class="btn btn-primary">Go To Detail</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
